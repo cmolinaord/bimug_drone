@@ -1,0 +1,6 @@
+Search for information on how is the GPS output format, in our BIMUG case,
+the two lines $S1 and $S2, which must match with NMEA protocol equivalents:
+
+$GPGGA Global Positioning System Fix Data. Time, Position and fix related data for a GPS receiver
+$GPGSV GPS DOP and active satellites
+$GPGSA Satellites in view

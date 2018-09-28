@@ -1,0 +1,8 @@
+$S1: UTC, A/V, LAT, N/S, LON, E/W, knots,track angle, date (NMEA GRMC)
+$S2: GPSFIX, num sats, horizontal dilution, altitude (m) (NMEA GPGGA)
+$S3: temp (oC), pressure (Pa), altitude barometric (m)
+$S4: orientation x,y,z (deg)
+$S5: acceleration x,y,z (m/s^2)
+$S6: calibration status sys,gyro,acc,mag
+$S7: buttons sync,off,load,save (only if at least 1 is not 0)
++"*"+Two digits checksum+"_"+millis()%10000+"\n"

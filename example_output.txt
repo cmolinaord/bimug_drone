@@ -1,0 +1,29 @@
+!BIMUG_v52 M.Soria UPC
+BMP280 found
+BNO055 found
+BNO:BNO055
+BNO Ver:1
+BNO ID:55
+BNO Loading calibration
+BNO CALIBRATION LOADED:
+BNOCalACC: 41475 259 32
+BNOCalGYR: 13057 14647 256
+BNOCalMAG: 8315 58 193
+BNOAccel Radius: 960
+BNOMag Radius: 152
+BNO: Waiting for non-null data
+BNO: dataok 0
+BNO: dataok 0
+BNO: dataok 1
+BNO: dataok 2
+BNO: dataok 3
+BNO: dataok 4
+BNO: dataok 5
+BNO: Non-null data received !
+$S2,0,00,,*51_7076
+$S3,28.17,99500.61,153.0*5B_7098
+$S4,62.44,2.94,17.44*58_7109
+$S5,0.090,-3.110,9.820*40_7119
+$S6,0,3,3,0*65_7131
+$S3,28.16,99499.81,153.1*54_7151
+$S5,0.060,-3.130,9.800*4F_7162
