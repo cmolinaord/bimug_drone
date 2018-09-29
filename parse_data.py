@@ -24,7 +24,7 @@ while line:
 
 	# WARING if data is not consistent with valid format
 	if line[1] is not 'S':
-		print("\nWARNING: found a line starting with something different from '$S#' in line %i (Skipping line):" % line_n)
+		print("\nWARNING, line %i: Found a line starting with something different from '$S#' (Skipping line):" % line_n)
 		print("         ",line)
 		print("         Make sure the file is correct data from a flight using BIMUG system")
 		line_n += 1
@@ -33,7 +33,7 @@ while line:
 
 	# Starting operations in current valid data line
 	mode = int(line[2])
-	print("Found a line of type $S%i: %s" % (mode, sensor.modes[mode])
+	print("Found a line of type $S%i" % mode)
 
 	if mode is 1:
 		# GPSPOS
@@ -67,7 +67,7 @@ while line:
 		print("   ... working")
 	else:
 		# NOT VALID MODE
-		print("\nWARNING: Not valid mode found in line %i (Skipping line):" % line_n)
+		print("\nWARNING, line %i: Not valid mode found (Skipping line):" % line_n)
 		print("         ",line)
 		line = f.readline().rstrip('\n')
 		line_n += 1
