@@ -1,5 +1,4 @@
 import sys
-import csv
 import sensor
 import mat4py
 
@@ -37,12 +36,20 @@ while line:
 
 	if mode is 1:
 		# GPSPOS
-		# Study if parse it manually or instead, use the pynmea2 library
-		#[gpspos_time, gpspos] = sensor.gpspos(line)
-		print("   ... working")
+		data = sensor.parse(line)
+		gpspos_time = np.concatenate((gpspos_time, [[ data[-1] ]]))
+		utc 		= np.concatenate((utc, [[ data[1] ]]))
+#		AV 		= data[2]
+#		lat 	= data[3]
+#		NS		= data[4]
+#		lon 	= data[5]
+#		EW		= data[6]
+#		knots 	= data[7]
+#		track 	= data[8]
+#		date 	= data[9]
+
 	elif mode is 2:
 		# GPSFIX
-		# Study if parse it manually or instead, use the pynmea2 library
 		#[gpsfix_time, gpsfix] = sensor.gpsfix(line)
 		print("   ... working")
 	elif mode is 3:
