@@ -21,6 +21,12 @@ def parse(line):
 		data = re.split(',|[*]|_',line)
 		return data
 
+def coordinates(str):
+	num = float(str)
+	degree = int(num*0.01)
+	coord = (num - degree * 100) / 60 + degree
+	return coord
+
 modes = {
 	1: "GPS POS",
 	2: "GPS FIX",
