@@ -23,38 +23,38 @@ time = 0 # Real global time in seconds after bootloading
 
 # Initializing output data
 # GPSPOS
-gpspos_time = np.zeros([1,1])
-utc 		= np.zeros([1,1])
-AV 			= np.zeros([1,1])
-lat 		= np.zeros([1,1])
-NS			= np.zeros([1,1])
-lon 		= np.zeros([1,1])
-EW			= np.zeros([1,1])
-knots 		= np.zeros([1,1])
-track 		= np.zeros([1,1])
-date 		= np.zeros([1,1])
+gpspos_time = np.zeros([0,1])
+utc 		= np.zeros([0,1])
+AV 			= np.zeros([0,1])
+lat 		= np.zeros([0,1])
+NS			= np.zeros([0,1])
+lon 		= np.zeros([0,1])
+EW			= np.zeros([0,1])
+knots 		= np.zeros([0,1])
+track 		= np.zeros([0,1])
+date 		= np.zeros([0,1])
 # GPSFIX
-gpsfix_time = np.zeros([1,1])
-numsat 		= np.zeros([1,1])
-dop 		= np.zeros([1,1])
-gps_alt 	= np.zeros([1,1])
+gpsfix_time = np.zeros([0,1])
+numsat 		= np.zeros([0,1])
+dop 		= np.zeros([0,1])
+gps_alt 	= np.zeros([0,1])
 # ATMOSPHERIC
-atm_time 	= np.zeros([1,1])
-temp 		= np.zeros([1,1])
-pressure	= np.zeros([1,1])
-baro_alt	= np.zeros([1,1])
+atm_time 	= np.zeros([0,1])
+temp 		= np.zeros([0,1])
+pressure	= np.zeros([0,1])
+baro_alt	= np.zeros([0,1])
 # HEADING
-head_time 	= np.zeros([1,1])
-heading 	= np.zeros([1,3])
+head_time 	= np.zeros([0,1])
+heading 	= np.zeros([0,3])
 # ACCELERATION
-acc_time 	= np.zeros([1,1])
-acceleration= np.zeros([1,3])
+acc_time 	= np.zeros([0,1])
+acceleration= np.zeros([0,3])
 # CALIBRATION
-cal_time 	= np.zeros([1,1])
-calibration = np.zeros([1,4])
+cal_time 	= np.zeros([0,1])
+calibration = np.zeros([0,4])
 # BUTTONS
-button_time	= np.zeros([1,1])
-buttons 	= np.zeros([1,4])
+button_time	= np.zeros([0,1])
+buttons 	= np.zeros([0,4])
 
 while line:
 	# Skipping (and printing) header lines
@@ -66,7 +66,7 @@ while line:
 
 	# WARING if data is not consistent with valid format
 	if line[1] is not 'S':
-		print("\nWARNING, line %i: Found a line starting with something different from '$S#' (Skipping line):" % line_n)
+		print("WARNING, line %i: Found a line starting with something different from '$S#' (Skipping line):" % line_n)
 		print("         ",line)
 		print("         Make sure the file is correct data from a flight using BIMUG system")
 		line_n += 1
@@ -76,8 +76,15 @@ while line:
 	# Starting operations in current valid data line
 	data = sensor.parse(line)
 	mode = int(data[0][2])
+
 	# Global time computation (since system start-up)
 	# Take into account that data[-1] gives time in miliseconds and it's reset every 10s
+
+	if data[-1] == '': # If no time data recorded
+		print("WARNING, line %i: No timestamp found" % line_n)
+		line_n += 1
+		line = f.readline().rstrip('\n')
+		continue
 	miliseconds[1] = int(data[-1])
 	if miliseconds[1] < miliseconds[0]:
 		Ntime += 1
@@ -166,3 +173,53 @@ while line:
 	line_n += 1
 # Finished file reading and closing file
 f.close()
+
+
+print(heading[:,0])
+
+from matplotlib import pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(2,1)
+ax1.plot(gpspos_time, knots, 'o-b')
+ax1.set_xlabel('time (s)')
+ax1.set_ylabel('Speed (knots)', color='b')
+ax1.tick_params('y', colors='b')
+ax12 = ax1.twinx()
+ax12.plot(atm_time, baro_alt, 'r')
+ax12.set_ylabel('Altitude (m)', color='r')
+ax12.tick_params('y', colors='r')
+
+ax2.plot(head_time, heading[:,0])
+ax2.set_xlabel('time (s)')
+ax2.set_ylabel('Heading')
+
+plt.show()
+
+output = {
+'gpspos_time'	: gpspos_time,
+'utc'			: utc,
+'AV'			: AV,
+'lat'			: lat,
+'NS'			: NS,
+'lon'			: lon,
+'EW'			: EW,
+'knots'			: knots,
+'track'			: track,
+'date'			: date,
+'gpsfix_time'	: gpsfix_time,
+'numsat'		: numsat,
+'dop'			: dop,
+'gps_alt'		: gps_alt,
+'atm_time'		: atm_time,
+'temp'			: temp,
+'pressure'		: pressure,
+'baro_alt'		: baro_alt,
+'head_time'		: head_time,
+'heading'		: heading,
+'acc_time'		: acc_time,
+'acceleration'	: acceleration,
+'cal_time'		: cal_time,
+'calibration'	: calibration,
+'button_time'	: button_time,
+'buttons'		: buttons
+}
