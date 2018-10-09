@@ -1,6 +1,5 @@
 import sys
 import sensor
-import mat4py
 import numpy as np
 from datetime import datetime
 
@@ -91,7 +90,8 @@ while line:
 	time = 10*Ntime + 1e-3*miliseconds[1]
 	miliseconds[0] = miliseconds[1]
 
-	print("Line %i: type $S%i, time = %3.3f" % (line_n, mode, time))
+	if line_n % 5000 == 0:
+		print("Line %i: %3.3fs" % (line_n, time))
 
 	if mode is 1:
 		# GPSPOS
@@ -124,7 +124,6 @@ while line:
 			gps_alt 	= np.concatenate((gps_alt, 		[[ float(data[4]) ]] ))
 		else:
 			print("WARNING: GPS not fixed (time = %3.3f)" % time)
-
 
 	elif mode is 3:
 		# ATMOSPHERIC sensors
@@ -159,6 +158,11 @@ while line:
 		button_time	= np.concatenate((button_time, 	[[time]] ))
 		but = [bool(data[1]), bool(data[2]), bool(data[3]), bool(data[3])]
 		buttons 	= np.concatenate((buttons, 		[ but ]))
+		if but[0]:
+			print("Sync button pressed. Time %2.3fs" % time)
+		else:
+			print("A button different from SYNC has been pressed:")
+			print(but)
 
 	else:
 		# NOT VALID MODE
@@ -174,29 +178,25 @@ while line:
 # Finished file reading and closing file
 f.close()
 
+time_arrays = {
+'gpspos_time'	: gpspos_time,
+'gpsfix_time'	: gpsfix_time,
+'atm_time'		: atm_time,
+'head_time'		: head_time,
+'acc_time'		: acc_time,
+'cal_time'		: cal_time,
+'button_time'	: button_time,
+}
 
-print(heading[:,0])
-
-from matplotlib import pyplot as plt
-
-fig, (ax1, ax2) = plt.subplots(2,1)
-ax1.plot(gpspos_time, knots, 'o-b')
-ax1.set_xlabel('time (s)')
-ax1.set_ylabel('Speed (knots)', color='b')
-ax1.tick_params('y', colors='b')
-ax12 = ax1.twinx()
-ax12.plot(atm_time, baro_alt, 'r')
-ax12.set_ylabel('Altitude (m)', color='r')
-ax12.tick_params('y', colors='r')
-
-ax2.plot(head_time, heading[:,0])
-ax2.set_xlabel('time (s)')
-ax2.set_ylabel('Heading')
-
-plt.show()
+i = 1
+for t in time_arrays:
+	n = len(time_arrays[t])
+	print("%6i %s recorded during %4.1fs" % (n, sensor.modes[i], time) )
+	print("  It means one event every %3.1fms (%3.1fHz)" %(1e3*time/n, n/time))
+	print(" ")
+	i += 1
 
 output = {
-'gpspos_time'	: gpspos_time,
 'utc'			: utc,
 'AV'			: AV,
 'lat'			: lat,
@@ -206,20 +206,14 @@ output = {
 'knots'			: knots,
 'track'			: track,
 'date'			: date,
-'gpsfix_time'	: gpsfix_time,
 'numsat'		: numsat,
 'dop'			: dop,
 'gps_alt'		: gps_alt,
-'atm_time'		: atm_time,
 'temp'			: temp,
 'pressure'		: pressure,
 'baro_alt'		: baro_alt,
-'head_time'		: head_time,
 'heading'		: heading,
-'acc_time'		: acc_time,
 'acceleration'	: acceleration,
-'cal_time'		: cal_time,
 'calibration'	: calibration,
-'button_time'	: button_time,
 'buttons'		: buttons
 }
