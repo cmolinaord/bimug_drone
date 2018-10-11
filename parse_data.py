@@ -7,7 +7,6 @@ import sys
 import os
 import csv
 import sensor
-import numpy as np
 from datetime import datetime
 
 # Read the arguments given to load the raw data file
