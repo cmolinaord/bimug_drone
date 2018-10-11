@@ -1,3 +1,8 @@
+# BIMUG_parser
+# Aerospace laboratories 2018
+# MASE - Master's degree in Space and Aeronautical Engineering
+# Carlos Molina
+
 import sys
 import os
 import csv
