@@ -28,11 +28,75 @@ def coordinates(str):
 	return coord
 
 modes = {
-	1: "GPS POS",
-	2: "GPS FIX",
-	3: "ATMOSPHERIC",
-	4: "HEADING",
-	5: "ACCELERATION",
-	6: "CALIBRATION",
-	7: "BUTTONS"
+	1: {
+	'name': 'GPS_POS',
+	'data': [
+		'time',
+		'utc',
+		'AV',
+		'lat',
+		'NS',
+		'lon',
+		'EW',
+		'knots',
+		'track'
+		]
+	},
+	2: {
+	'name': 'GPS_FIX',
+	'data': [
+		'time',
+		'date',
+		'numsat',
+		'dop',
+		'gps_alt'
+		]
+	},
+	3: {
+	'name': 'ATMOSPHERIC',
+	'data': [
+		'time',
+		'temp',
+		'pressure',
+		'baro_alt'
+		]
+	},
+	4: {
+	'name': 'HEADING',
+	'data': [
+		'time',
+		'x',
+		'y',
+		'z'
+		]
+	},
+	5: {
+	'name': 'ACCELERATION',
+	'data': [
+		'time',
+		'x',
+		'y',
+		'z'
+		]
+	},
+	6: {
+	'name': 'CALIBRATION',
+	'data': [
+		'time',
+		'sys',
+		'gyro',
+		'acc',
+		'mag'
+		]
+	},
+	7: {
+	'name': 'BUTTONS',
+	'data': [
+		'time',
+		'sync',
+		'off',
+		'load',
+		'save'
+		]
+	}
 }
