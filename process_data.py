@@ -39,6 +39,10 @@ def dist(A, B):
 	d = deg2meters(d)
 	return d
 
+def knots2ms(kn):
+	# Converse knots to m/s
+	return kn * 0.51444
+
 def export_kml_path(comment, t0, tf, dt=2, altitude=False):
 	# Export a KML file with the flight path corresponding to "comment"
 	# to be visualized in Google Earth
