@@ -1,5 +1,5 @@
 def checksum(str):
-	c = int('',16)
+	c = 0
 	for s in str:
-		c = c ^ s
-	return c
+		c = c ^ ord(s)
+	return hex(c)

@@ -4,16 +4,14 @@ from checksum import checksum
 
 def check_data(line):
 	# recorded checksum
-	#cs = re.split('[*]|_',linea)[-2]
+	cs = re.split('[*]|_',line)[-2]
 	# String to check
-	#str = line.lstrip("$").split("*")[0]
-
+	str = line.lstrip("$").split("*")[0]
 	# Compare with string checksum
-	#if cs == checksum(str):
-	#	return True
-	#else:
-	#	return False
-	return True
+	if int(cs,16) == int(checksum(str),16):
+		return True
+	else:
+		return False
 
 # Method to read any kind of line, separated with comma, asterisc and underscore
 def parse(line):
