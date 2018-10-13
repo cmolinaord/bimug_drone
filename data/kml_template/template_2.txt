@@ -1,0 +1,6 @@
+</coordinates>
+</LineString>
+</Placemark>
+</Folder>
+</Document>
+</kml>

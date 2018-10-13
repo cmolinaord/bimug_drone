@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Untitled map</name>
+    <description/>
+    <Style id="line-FFEA00-1200-normal">
+      <LineStyle>
+        <color>ff00eaff</color>
+        <width>1.2</width>
+      </LineStyle>
+    </Style>
+    <Style id="line-FFEA00-1200-highlight">
+      <LineStyle>
+        <color>ff00eaff</color>
+        <width>3</width>
+      </LineStyle>
+    </Style>
+    <StyleMap id="line-FFEA00-1200">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-FFEA00-1200-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-FFEA00-1200-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>path1</name>
+      <Placemark>
+        <name>path1</name>
+        <description>First flight test</description>
+        <styleUrl>#line-FFEA00-1200</styleUrl>
+        <LineString>
+	  <altitudeMode>relativeToGround</altitudeMode>
+          <tessellate>1</tessellate>
+          <coordinates>
