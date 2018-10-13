@@ -7,20 +7,22 @@ from numpy import pi, sin, cos, deg2rad
 
 mpl.rcParams['legend.fontsize'] = 10
 
-time, alt0 = pd.resample("flight_1", 3, 'baro_alt', 2*60, 4*60, 0.5)
+comment = "f2"
+
+time, alt0 = pd.resample(comment, 3, 'baro_alt', 2*60, 4*60, 0.5)
 alt0 = np.average(alt0)
 
-t0 = 13.4 # minutes
+t0 = 7.6 # minutes
 t0 = t0 * 60
 
-tf = 15.8
+tf = 11
 tf = tf * 60
 
 dt = 0.5
-time, lat = pd.resample("flight_1", 1, 'lat', t0, tf, dt)
-time, lon = pd.resample("flight_1", 1, 'lon', t0, tf, dt)
-time, alt = pd.resample("flight_1", 3, 'baro_alt', t0, tf, dt)
-time, h = pd.resample("flight_1", 4, 'z', t0, tf, dt)
+time, lat = pd.resample(comment, 1, 'lat', t0, tf, dt)
+time, lon = pd.resample(comment, 1, 'lon', t0, tf, dt)
+time, alt = pd.resample(comment, 3, 'baro_alt', t0, tf, dt)
+time, h = pd.resample(comment, 4, 'z', t0, tf, dt)
 alt = alt - alt0
 lat = pd.deg2meters(lat) - pd.deg2meters(lat[0])
 lon = pd.deg2meters(lon) - pd.deg2meters(lon[0])
@@ -28,10 +30,10 @@ x = pd.deg2meters(cos(h))
 y = pd.deg2meters(sin(h))
 
 DT = 4
-t, lat_v = 	pd.resample("flight_1", 1, 'lat', t0, tf, DT)
-t, lon_v = 	pd.resample("flight_1", 1, 'lon', t0, tf, DT)
-t, alt_v = 	pd.resample("flight_1", 3, 'baro_alt', t0, tf, DT)
-t, head = pd.resample("flight_1", 4, 'x', t0, tf, DT)
+t, lat_v = 	pd.resample(comment, 1, 'lat', t0, tf, DT)
+t, lon_v = 	pd.resample(comment, 1, 'lon', t0, tf, DT)
+t, alt_v = 	pd.resample(comment, 3, 'baro_alt', t0, tf, DT)
+t, head = pd.resample(comment, 4, 'x', t0, tf, DT)
 alt_v = alt_v - alt0
 head = deg2rad(head)
 lat_v = pd.deg2meters(lat_v) - pd.deg2meters(lat_v[0])
