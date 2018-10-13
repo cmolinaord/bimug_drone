@@ -39,26 +39,22 @@ def dist(A, B):
 	d = deg2meters(d)
 	return d
 
-def export_kml_path(comment, altitude=False):
+def export_kml_path(comment, t0, tf, dt=2, altitude=False):
 	# Export a KML file with the flight path corresponding to "comment"
 	# to be visualized in Google Earth
+	# Times given in minutes
 
-	gps_file = 'S1_GPS_POS'
-	atm_file = 'S3_ATMOSPHERIC'
+	time, alt0 = resample(comment, 3, 'baro_alt', 2*60, 4*60, 0.5)
+	alt0 = np.average(alt0)
 
-	csvfile = open(filename, 'r')
-	reader = csv.reader(csvfile, delimiter='\t')
-	coord = [0.0, 0.0]
-	n = 0
-	n1 = 0
-	for row in reader:
-		if not len(row) == 1:
-			lat = float(row[3])
-			lon = float(row[5])
-			d = dist(coord, [lon, lat])
-			n += 1
-			if d > 1:
-				n1 += 1
-				coord = [lon, lat]
-				print('%2.5f,%2.5f,0' % (coord[0], coord[1]) )
-	print('%i lineas exportadas de un total de %i lineas' % (n1,n))
+	t0 = 60 * t0
+	tf = 60 * tf
+
+	time, lat = resample(comment, 1, 'lat', t0, tf, dt)
+	time, lon = resample(comment, 1, 'lon', t0, tf, dt)
+	if altitude:
+		time, alt = resample(comment, 3, 'baro_alt', t0, tf, dt)
+	alt = alt - alt0
+
+	for i in range(len(time)):
+		print('%2.5f,%2.5f,%1.3f' % (lon[i], lat[i], alt[i]) )
