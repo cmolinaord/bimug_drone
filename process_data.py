@@ -1,0 +1,64 @@
+import csv
+import numpy as np
+from numpy import pi, sqrt
+import sensor
+
+R_Earth = 6378100 # Meters
+
+def resample(comment, mode, column, t0, tf, dt):
+	# This function resamples the recorded data from t0 to tf with a
+	# step of dt (in seconds) for the given sensor and column
+	# giving as output, the new resampled time, and the corresponding data measurements
+
+	time = []
+	y = []
+	index = sensor.modes[mode]['data'].index(column)
+
+	filename = 'output_data/' + comment + '_S' + str(mode) + "_" + sensor.modes[mode]['name'] + ".csv"
+	csvfile = open(filename, 'r')
+	reader = csv.reader(csvfile, delimiter='\t')
+	for row in reader:
+		if not len(row) == 1:
+			time.append(float(row[0]))
+			y.append(float(row[index]))
+	time_new = np.arange(t0, tf, dt)
+	y_new = np.interp(time_new, time, y)
+	return time_new, y_new
+
+
+def deg2meters(d):
+	# This function gives the distance in meters over the Earth surface
+	# given an angle in degrees measured from the center of the Earth
+	m = d * (2 * pi) / 360 * R_Earth
+	return m
+
+def dist(A, B):
+	# Give distance between coordinates A and B in meters
+	# A and B must be given in degrees
+	d = sqrt((A[0]-B[0])**2 + (A[1]-B[1])**2 )
+	d = deg2meters(d)
+	return d
+
+def export_kml_path(comment, altitude=False):
+	# Export a KML file with the flight path corresponding to "comment"
+	# to be visualized in Google Earth
+
+	gps_file = 'S1_GPS_POS'
+	atm_file = 'S3_ATMOSPHERIC'
+
+	csvfile = open(filename, 'r')
+	reader = csv.reader(csvfile, delimiter='\t')
+	coord = [0.0, 0.0]
+	n = 0
+	n1 = 0
+	for row in reader:
+		if not len(row) == 1:
+			lat = float(row[3])
+			lon = float(row[5])
+			d = dist(coord, [lon, lat])
+			n += 1
+			if d > 1:
+				n1 += 1
+				coord = [lon, lat]
+				print('%2.5f,%2.5f,0' % (coord[0], coord[1]) )
+	print('%i lineas exportadas de un total de %i lineas' % (n1,n))
