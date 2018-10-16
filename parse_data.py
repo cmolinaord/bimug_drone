@@ -3,6 +3,16 @@
 # MASE - Master's degree in Space and Aeronautical Engineering
 # Carlos Molina
 
+# help
+# To run this code you have to run the next comand:
+# python parse_data.py "data_filename.txt" <optional_comment>
+#
+# The comment should give information about the flight to be parsed,
+# and will be written in the output data files stored in a folder named: output_data/
+#
+# This script just parse the date codified in the input datafile and
+# write them into separated CSV files for each sensor, using TAB as a separator.
+
 import sys
 import os
 import csv
