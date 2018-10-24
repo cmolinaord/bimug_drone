@@ -14,7 +14,7 @@ def resample(comment, mode, column, t0, tf, dt):
 	y = []
 	index = sensor.modes[mode]['data'].index(column)
 
-	filename = 'output_data/' + comment + '_S' + str(mode) + "_" + sensor.modes[mode]['name'] + ".csv"
+	filename = '../output_data/' + comment + '_S' + str(mode) + "_" + sensor.modes[mode]['name'] + ".csv"
 	csvfile = open(filename, 'r')
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:

@@ -6,9 +6,9 @@ import process_data as pd
 from matplotlib import animation
 
 # Load and compute google_earth aerial_image
-map = plt.imread("img/aerial_image.png")
+map = plt.imread("../img/aerial_image.png")
 edge = np.zeros([2,2])
-with open("img/coordinates.txt") as f:
+with open("../img/coordinates.txt") as f:
 	reader = csv.reader(f)
 	i = 0
 	for row in reader:
@@ -44,5 +44,5 @@ def animate(i):
 	return line,
 
 anim = animation.FuncAnimation(fig, animate, init_func=init, frames=tf-t0, interval=1, blit=True)
-anim.save('flight_path/' + comment + '.mp4', fps=10, extra_args=['-vcodec', 'libx264'])
+#anim.save('../flight_path/' + comment + '.mp4', fps=10, extra_args=['-vcodec', 'libx264'])
 plt.show()
