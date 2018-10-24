@@ -47,7 +47,9 @@ ax1.plot(lon, lat, '-b', label='path')
 ax1.quiver(lon, lat, x, y, label='heading')
 ax1.set_xlabel('longitude (deg)')
 ax1.set_ylabel('latitude (deg)')
+ax1.axis('equal')
 ax1.legend()
+ax1.grid()
 
 # Figre 2 (path in 3D)
 max_range = np.array([lon.max()-lon.min(), lat.max()-lat.min(), alt.max()-alt.min()]).max() / 2.0
@@ -56,8 +58,7 @@ mid_x = (lon.max() + lon.min()) * 0.5
 mid_y = (lat.max() + lat.min()) * 0.5
 mid_z = (alt.max() + alt.min()) * 0.5
 
-
-
+# Figure 2 (Path in 3D)
 fig2 = plt.figure()
 ax2 = fig2.gca(projection='3d')
 ax2.plot(lon, lat, alt, '-r', label='Flight path')
@@ -78,16 +79,20 @@ t, speed = 	pd.resample(comment, 1, 'knots', t0, tf, dt)
 T, Speed = 	pd.resample(comment, 1, 'knots', t0, tf, DT)
 t, alt 	=	pd.resample(comment, 3, 'baro_alt', t0, tf, dt)
 T, Alt 	=	pd.resample(comment, 3, 'baro_alt', t0, tf, DT)
+alt = alt - alt0
 
-fig3 = plt.figure()
-ax31 = fig3.gca()
-ax31.plot(t, speed, '.-b')
-ax31.plot(T, Speed, 'or')
-ax31.set_xlabel('Time (s)')
+fig3, (ax31, ax32) = plt.subplots(2,1)
+ax31.plot(t, speed, '.-b', label='Speed')
+#ax31.plot(T, Speed, 'or')
 ax31.set_ylabel('Speed (knots)')
-ax32 = ax31.twinx()
-ax32.plot(t, alt, '-b')
-ax32.plot(T, Alt, 'or')
+ax31.legend()
+ax31.grid()
+
+ax32.plot(t, alt, '+-r', label='Altitude')
+#ax32.plot(T, Alt, 'or')
+ax32.set_xlabel('Time (s)')
 ax32.set_ylabel('Alt (m)')
+ax32.legend()
+ax32.grid()
 
 plt.show()
