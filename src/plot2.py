@@ -89,7 +89,6 @@ ax32.set_ylabel('Alt (m)')
 ax32.legend()
 ax32.grid()
 
-plt.show()
 
 
 # Glode angle calculation
@@ -102,6 +101,11 @@ avg_speed = np.average(speed1)
 t1, alt = pd.resample(comment, 3, 'baro_alt', t0, tf, dt)
 A = np.vstack([t1, np.ones(len(t1))]).T
 vv, c = np.linalg.lstsq(A, alt, rcond=None)[0]
+
+ax31.plot([t0, t0], [0, 1.1*max(speed)], '--g')
+ax31.plot([tf, tf], [0, 1.1*max(speed)], '--g')
+ax32.plot([t0, t0], [0, 150], '--g')
+ax32.plot([tf, tf], [0, 150], '--g')
 
 print("\nFirst period of gliding descending")
 print("  -  -  -  -  -  -  -  -  -  -  -  -")
@@ -121,6 +125,11 @@ t1, alt = pd.resample(comment, 3, 'baro_alt', t0, tf, dt)
 A = np.vstack([t1, np.ones(len(t1))]).T
 vv, c = np.linalg.lstsq(A, alt, rcond=None)[0]
 
+ax31.plot([t0, t0], [0, max(speed)], '--b')
+ax31.plot([tf, tf], [0, max(speed)], '--b')
+ax32.plot([t0, t0], [0, 150], '--b')
+ax32.plot([tf, tf], [0, 150], '--b')
+
 print("\nSecond period of gliding descending")
 print("  -  -  -  -  -  -  -  -  -  -  -  -")
 print("From %3.1fs to %3.1fs" % (t0, tf))
@@ -128,3 +137,7 @@ print("From %3.2fm to %3.2fm of altitude" % (t0*vv + c, tf*vv + c))
 print("Mean horizontal velocity = %2.3f m/s" % avg_speed)
 print("Mean vertical velocity = %2.3f m/s" % vv)
 print("Glide ratio = %2.2f" % (-avg_speed / vv))
+
+
+
+plt.show()
