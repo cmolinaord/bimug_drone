@@ -51,7 +51,7 @@ else:
 		exit()
 
 # Create output directory for the CSV exported data
-output_data_root = "output_data"
+output_data_root = "../output_data"
 if not os.path.exists(output_data_root):
 	os.mkdir(output_data_root)
 
@@ -136,11 +136,11 @@ while line:
 		# It is decided with $S2 lines, so if the $S1 line which corresponds
 		# with the first $S2 fixed line, is written just before the $S2 line,
 		# we'll lose this first (valid) $S1 data. Try to fix this bug
+		gpstime = str.split(data[1],'.')[0] # Use only integer part of time (always is measured at exact seconds)
+		utc = datetime.strptime(data[9] + gpstime, '%d%m%y%H%M%S')
 
 		if gpsfix:
 			# Preprocces UTC date and coordinates
-			gpstime = str.split(data[1],'.')[0] # Use only integer part of time (always is measured at exact seconds)
-			utc = datetime.strptime(data[9] + gpstime, '%d%m%y%H%M%S')
 			latitude	= sensor.coordinates(data[3])
 			longitude 	= sensor.coordinates(data[5])
 
@@ -160,6 +160,20 @@ while line:
 
 		else:
 			print("WARNING: GPS not fixed (time = %3.3f)" % time)
+
+			write_vector = [
+			time,			# gpspos_time
+			utc,			# utc
+			0,		# AV
+			0,		# lat
+			0,		# NS
+			0,		# lon
+			0,		# EW
+			0,	# knots
+			0	# track
+			]
+			csv_line_n = write_csv(csv_file, mode, write_vector, csv_line_n)
+
 
 	elif mode is 2:
 		# GPSFIX
@@ -252,14 +266,12 @@ while line:
 	line_n += 1
 # Finished file reading and closing file
 print("\n...\nFinished parsing %i lines of raw data from %s" % (line_n, filename))
-print("\tClosing %s..." % filename)
 f.close()
 
-print("\nTotal time recording: %4.3fs = %2.2f" % (time, time / 60))
+print("\nTotal time recording: %4.3fs = %2.2fmin" % (time, time / 60))
 
 # Close all CSV files
 for i in sensor.modes:
 	n = csv_line_n[i-1]
 	print("%5i lines written in %s\t\tOne each %3.1fms (%3.1fHz)" % (n, csv_file[i-1].name, time/n*1e3, n/time))
-	print("      ... closing CSV file")
 	csv_file[i-1].close()
