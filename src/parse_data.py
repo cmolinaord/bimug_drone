@@ -18,6 +18,7 @@ import os
 import csv
 import sensor
 from datetime import datetime
+from time import perf_counter
 
 # Read the arguments given to load the raw data file
 if len(sys.argv) == 1:
@@ -49,6 +50,9 @@ else:
 		print("       It should start with a non-numeric character")
 		print("       This argument will be the first part of the output CSV files name")
 		exit()
+
+# Start counting stopwatch
+tic = perf_counter()
 
 # Create output directory for the CSV exported data
 output_data_root = "../output_data"
@@ -265,8 +269,9 @@ while line:
 	line = f.readline().rstrip('\n')
 	line_n += 1
 # Finished file reading and closing file
-print("\n...\nFinished parsing %i lines of raw data from %s" % (line_n, filename))
 f.close()
+toc = perf_counter()
+print("\n...\nFinished parsing %i lines of raw data from %s in %1.2fs" % (line_n, filename, toc - tic))
 
 print("\nTotal time recording: %4.3fs = %2.2fmin" % (time, time / 60))
 
