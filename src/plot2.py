@@ -24,6 +24,7 @@ t, h = pd.resample(comment, 4, 'x', t0, tf, dt)
 alt = alt - alt0
 lat = pd.deg2meters(lat) - pd.deg2meters(lat[0])
 lon = pd.deg2meters(lon) - pd.deg2meters(lon[0])
+h = deg2rad(h)
 x = pd.deg2meters(cos(h))
 y = pd.deg2meters(sin(h))
 
@@ -33,11 +34,11 @@ T, lon_v = 	pd.resample(comment, 1, 'lon', t0, tf, DT)
 T, alt_v = 	pd.resample(comment, 3, 'baro_alt', t0, tf, DT)
 T, head = pd.resample(comment, 4, 'x', t0, tf, DT)
 alt_v = alt_v - alt0
-head = deg2rad(head)
+headrad = deg2rad(head)
 lat_v = pd.deg2meters(lat_v) - pd.deg2meters(lat_v[0])
 lon_v = pd.deg2meters(lon_v) - pd.deg2meters(lon_v[0])
-X = pd.deg2meters(cos(head))
-Y = pd.deg2meters(sin(head))
+X = pd.deg2meters(cos(headrad))
+Y = pd.deg2meters(sin(headrad))
 
 # Figure 1 (Path in 2D)
 #fig1, (ax1, ax2) = plt.subplots(1,2)
