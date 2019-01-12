@@ -21,8 +21,8 @@ The optional comment should be something to help identifying the filename,
 because it would write a series of CSV files into one new directory named output_data
 which will have the following name convention:
 ```
-comment_S1_GPS_POS.csv
-comment_S2_GPS_FIX.csv
+<comment>_S1_GPS_POS.csv
+<comment>_S2_GPS_FIX.csv
 ...
 ```
 One file per type of line read from the input data file.
